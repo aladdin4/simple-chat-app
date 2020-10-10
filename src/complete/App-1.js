@@ -1,9 +1,9 @@
-
+//we modified createStore() to accept any state initialization, so it's flexible to work with more state data structures than just int. numbers
 function createStore(reducer, initialState) {
   let state = initialState;
   // ...
 
-  const getState = () => (state);
+  const getState = () => state;
 
   const dispatch = (action) => {
     state = reducer(state, action);
@@ -16,7 +16,7 @@ function createStore(reducer, initialState) {
 }
 
 function reducer(state, action) {
-  if (action.type === 'ADD_MESSAGE') {
+  if (action.type === "ADD_MESSAGE") {
     return {
       messages: state.messages.concat(action.message),
     };
@@ -25,30 +25,30 @@ function reducer(state, action) {
   }
 }
 
-const initialState = { messages: [] };
+const initialState = {messages: []};
 
 const store = createStore(reducer, initialState);
 
 const addMessageAction1 = {
-  type: 'ADD_MESSAGE',
-  message: 'How does it look, Neil?',
+  type: "ADD_MESSAGE",
+  message: "How does it look, Neil?",
 };
 
 store.dispatch(addMessageAction1);
 const stateV1 = store.getState();
 
 const addMessageAction2 = {
-  type: 'ADD_MESSAGE',
-  message: 'Looking good.',
+  type: "ADD_MESSAGE",
+  message: "Looking good.",
 };
 
 store.dispatch(addMessageAction2);
 const stateV2 = store.getState();
 
-console.log('State v1:');
+console.log("State v1:");
 console.log(stateV1);
-console.log('State v2:');
+console.log("State v2:");
 console.log(stateV2);
 
-const App = { createStore, reducer, initialState }; // for tests
+const App = {createStore, reducer, initialState}; // for tests
 export default App;
