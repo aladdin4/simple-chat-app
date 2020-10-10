@@ -1,3 +1,4 @@
+//as app is the top-level component, it will be the one that subscribe to the store becausethe only function we need to notify when state updates is render(), that will cause the required re-render effect
 import React from "react";
 
 function createStore(reducer, initialState) {
