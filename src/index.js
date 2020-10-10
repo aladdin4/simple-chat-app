@@ -6,4 +6,5 @@ import "./index.css";
 
 import "./semantic-dist/semantic.min.css";
 
+//test
 ReactDOM.render(<App />, document.getElementById("root"));

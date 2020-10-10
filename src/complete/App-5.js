@@ -4,17 +4,13 @@ function createStore(reducer, initialState) {
   let state = initialState;
   const listeners = [];
 
-  const subscribe = (listener) => {
-    listeners.push(listener);
-  };
+  const subscribe = (listener) => listeners.push(listener);
 
-  const getState = () => {
-    return state;
-  };
+  const getState = () => state;
 
   const dispatch = (action) => {
     state = reducer(state, action);
-    listeners.forEach((listener) => listener());
+    listeners.forEach((l) => l());
   };
 
   return {
@@ -45,16 +41,24 @@ const initialState = { messages: [] };
 
 const store = createStore(reducer, initialState);
 
+//our top-level component, the one that subscribes to; and reads from the store
 class App extends React.Component {
+  //
+  //the best place to subscribe is here
   componentDidMount() {
+    //
+    //we use forceUpdate() to reRender the component, and so reRender all the children components.
     store.subscribe(() => this.forceUpdate());
   }
 
   render() {
+    //
+    //we get the most updated state when reRender()
     const messages = store.getState().messages;
 
     return (
       <div className="ui segment">
+        {/*this child component will read from the state and update it's view through a reRender */}
         <MessageView messages={messages} />
         <MessageInput />
       </div>
@@ -62,17 +66,20 @@ class App extends React.Component {
   }
 }
 
+//a component that have an input form and submit btn
 class MessageInput extends React.Component {
   state = {
     value: "",
   };
 
+  //we will keep the entered data locally in the form state.
   onChange = (e) => {
     this.setState({
       value: e.target.value,
     });
   };
 
+  //a callback function, instead of calling the parent's handler through props, it calls the store.dispatch() method.
   handleSubmit = () => {
     store.dispatch({
       type: "ADD_MESSAGE",

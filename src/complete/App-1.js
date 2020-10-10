@@ -1,10 +1,11 @@
-//we modified createStore() to accept any state initialization, so it's flexible to work with more state data structures than just int. numbers
+//we modified createStore() to accept any state initialization, so it's flexible to work with more state data structures than just int. numbers.
 function createStore(reducer, initialState) {
   let state = initialState;
   // ...
 
   const getState = () => state;
 
+  //dispatch will change the state object by concat. the new string to it.
   const dispatch = (action) => {
     state = reducer(state, action);
   };
@@ -15,6 +16,7 @@ function createStore(reducer, initialState) {
   };
 }
 
+//our reducer() should be pure function.
 function reducer(state, action) {
   if (action.type === "ADD_MESSAGE") {
     return {
@@ -25,7 +27,7 @@ function reducer(state, action) {
   }
 }
 
-const initialState = {messages: []};
+const initialState = { messages: [] };
 
 const store = createStore(reducer, initialState);
 
@@ -50,5 +52,5 @@ console.log(stateV1);
 console.log("State v2:");
 console.log(stateV2);
 
-const App = {createStore, reducer, initialState}; // for tests
+const App = { createStore, reducer, initialState }; // for tests
 export default App;
