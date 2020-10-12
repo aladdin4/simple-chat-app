@@ -1,4 +1,3 @@
-//as app is the top-level component, it will be the one that subscribe to the store becausethe only function we need to notify when state updates is render(), that will cause the required re-render effect
 import React from "react";
 
 function createStore(reducer, initialState) {
@@ -42,18 +41,14 @@ const initialState = { messages: [] };
 
 const store = createStore(reducer, initialState);
 
-//our top-level component, the one that subscribes to; and reads from the store
+//as app is the top-level component, it will be the one that subscribe to the store, calling forceUpdate() will cause the required re-render effect
 class App extends React.Component {
-  //
-  //the best place to subscribe is here
+  //the best time to subscribe is here
   componentDidMount() {
-    //
-    //we use forceUpdate() to reRender the component, and so reRender all the children components.
     store.subscribe(() => this.forceUpdate());
   }
 
   render() {
-    //
     //we get the most updated state when reRender()
     const messages = store.getState().messages;
 
@@ -80,12 +75,13 @@ class MessageInput extends React.Component {
     });
   };
 
-  //a callback function, instead of calling the parent's handler through props, it calls the store.dispatch() method.
+  //a callback function, instead of calling the parent's handler through props, it calls the store.dispatch() method directlty.
   handleSubmit = () => {
     store.dispatch({
       type: "ADD_MESSAGE",
       message: this.state.value,
     });
+    //clearing the input field
     this.setState({
       value: "",
     });
